@@ -9,3 +9,18 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+model Trainer {
+  id       Int       @id @default(autoincrement())
+  name     String    @db.VarChar(30)
+  region   String    @db.VarChar(20)
+  age      Int
+  pokemons Pokemon[]
+}
+
+model Pokemon {
+  id        Int     @id @default(autoincrement())
+  pokedexId Int
+  trainerId Int
+  trainer   Trainer @relation(fields: [trainerId], references: [id])
+}
