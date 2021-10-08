@@ -1,4 +1,3 @@
-import { Prisma } from ".prisma/client";
 import { Request, Response } from "express";
 import PokemonService from "../services/pokemon.service";
 
@@ -36,18 +35,13 @@ export function getTrainerPokemons(pokemonService: PokemonService) {
 export function postPokemon(pokemonService: PokemonService) {
   return async function (req: Request, res: Response) {
     let data = req.body as { pokedexId: number; trainerId: number };
-    if (data == undefined) {
-      res.status(400).send();
-    } else {
-      try {
-        let pokemon = await pokemonService.createPokemon(data);
-        res.send(pokemon);
-      } catch (e) {
-        let error = e as Error;
-        res
-          .status(400)
-          .send(error ? error.message : "Invalid pokedex ID or trainer ID");
-      }
+    try {
+      let pokemon = await pokemonService.createPokemon(data);
+      res.send(pokemon);
+    } catch (e) {
+      let error = e as Error;
+      let message = error ? error.message : "Invalid pokedex ID or trainer ID";
+      res.status(400).send({ message });
     }
   };
 }

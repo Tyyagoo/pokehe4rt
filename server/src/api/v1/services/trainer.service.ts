@@ -1,4 +1,4 @@
-import { Prisma, Trainer } from ".prisma/client";
+import { Prisma } from ".prisma/client";
 import { autoInjectable } from "tsyringe";
 import TrainerRepository from "../repositories/trainer.repository";
 

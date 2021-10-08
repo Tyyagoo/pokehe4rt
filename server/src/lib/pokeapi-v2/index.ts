@@ -8,13 +8,10 @@ type MaybePokemon = PokeAPI.Pokemon | undefined;
 async function fetchPokemonById(id: number): Promise<MaybePokemon> {
   let maybePokemon: MaybePokemon = pokemonCache.get(id);
   if (maybePokemon) {
-    console.log("Returning a cached pokemon!");
     return maybePokemon;
   } else {
     let response = await api.getPokemon(id);
-    console.log("Fetching the data!");
     if (response.status !== 200) {
-      console.log("Oops");
       return undefined;
     }
     let pokemon = response.data as PokeAPI.Pokemon;
@@ -23,22 +20,16 @@ async function fetchPokemonById(id: number): Promise<MaybePokemon> {
   }
 }
 
-/*
-(async () => {
-  try {
-    for (let i = 0; i < 5; i++) {
-      let p = await getPokemonById(3);
-      if (p) {
-        console.log(p.name);
-      } else {
-        console.log("Some error has occurred.");
-      }
-    }
-  } catch (e) {
-    console.error(e);
-  }
-})();
-*/
+let interval = setInterval(() => {
+  let stats = pokemonCache.getStats();
+  console.log(
+    `⚡️[server]: pokemon cache -> keys: ${stats.keys}, hits: ${
+      stats.hits
+    }, misses: ${stats.misses}, ksize: ${stats.ksize / 1000}(kB), vsize: ${
+      stats.vsize / 1000
+    } (kB)`
+  );
+}, 5000);
 
 const POKE_API_V2 = {
   fetchPokemonById,

@@ -1,6 +1,5 @@
 import prisma from "./index";
-import { Pokemon, Prisma, Trainer } from ".prisma/client";
-import POKE_API_V2 from "../../../lib/pokeapi-v2";
+import { Prisma } from ".prisma/client";
 
 export default class PokemonRepository {
   pokemons = prisma.pokemon;
