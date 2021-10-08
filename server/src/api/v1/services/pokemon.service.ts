@@ -1,8 +1,8 @@
 import { autoInjectable } from "tsyringe";
-import POKE_API_V2 from "../../../lib/pokeapi-v2";
 import PokemonModel from "../models/pokemon.model";
 import PokemonRepository from "../repositories/pokemon.repository";
 import TrainerRepository from "../repositories/trainer.repository";
+import PokeAPI from "../../../lib/pokeapi";
 import { PokeHelpers } from "../helpers";
 import { Pokemon } from ".prisma/client";
 
@@ -15,14 +15,15 @@ export default class PokemonService {
 
   private async fetchMultiplePokemons(prismaPromise: Promise<Pokemon[]>) {
     let prismaPokemons = await prismaPromise;
-    let dataPokemons = await Promise.all(
-      prismaPokemons.map(p => POKE_API_V2.fetchPokemonById(p.pokedexId))
-    );
-    let pokemons = dataPokemons.map((p, i) => {
-      if (p == undefined) return undefined;
-      return PokeHelpers.mergePokemonsModels(prismaPokemons[i], p);
+    let pokedexIndexes = [...new Set(prismaPokemons.map(p => p.pokedexId))];
+    let data = await PokeAPI.pokemon.ids(pokedexIndexes);
+    let pokemonsData: { [key: number]: any } = {};
+    data.forEach(p => (pokemonsData[p.id] = p));
+
+    return prismaPokemons.map(p => {
+      let pokeData = pokemonsData[p.pokedexId];
+      return PokeHelpers.mergePokemonsModels(p, pokeData);
     });
-    return pokemons.filter(p => p !== undefined) as PokemonModel[];
   }
 
   async getPokemons() {
@@ -32,7 +33,7 @@ export default class PokemonService {
   async getPokemonById(id: number) {
     let prismaPokemon = await this.pokemonRepository.findPokemonById(id);
     if (prismaPokemon == null) return undefined;
-    let pokeData = await POKE_API_V2.fetchPokemonById(prismaPokemon.pokedexId);
+    let pokeData = await PokeAPI.pokemon.id(prismaPokemon.pokedexId);
     if (pokeData == undefined) return undefined;
     return PokeHelpers.mergePokemonsModels(prismaPokemon, pokeData);
   }

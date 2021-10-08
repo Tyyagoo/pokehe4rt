@@ -1,21 +1,15 @@
-import { Pokemon } from "@prisma/client";
-import PokeAPI from "../../../lib/pokeapi-v2/interfaces";
+import { Pokemon as PokeModel } from "@prisma/client";
+import { Pokemon as PokeData } from "../../../lib/pokeapi/interfaces";
+
 import PokemonModel from "../models/pokemon.model";
 
 const mergePokemonsModels = (
-  prismaModel: Pokemon,
-  dataModel: PokeAPI.Pokemon
+  prismaModel: PokeModel,
+  dataModel: PokeData
 ): PokemonModel => {
   let pokemon: PokemonModel = {
-    name: dataModel.name,
-    base_experience: dataModel.base_experience,
-    height: dataModel.height,
-    is_default: dataModel.is_default,
-    order: dataModel.order,
-    weight: dataModel.weight,
-    id: prismaModel.id,
-    pokedexId: prismaModel.pokedexId,
-    trainerId: prismaModel.trainerId,
+    ...dataModel,
+    ...prismaModel,
   };
 
   return pokemon;
