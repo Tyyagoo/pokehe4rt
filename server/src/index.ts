@@ -1,6 +1,9 @@
 import "reflect-metadata";
+import dotenv from "dotenv";
 import express from "express";
 import API_ROUTING from "./api";
+
+dotenv.config();
 
 const PORT = 8000;
 const app = express();

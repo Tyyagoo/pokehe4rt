@@ -15,8 +15,13 @@ const mergePokemonsModels = (
   return pokemon;
 };
 
+function randomIv() {
+  return Math.floor(Math.random() * (31 - 1) + 1);
+}
+
 const PokeHelpers = {
   mergePokemonsModels,
+  randomIv,
 };
 
 export = PokeHelpers;

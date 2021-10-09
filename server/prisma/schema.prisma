@@ -10,10 +10,29 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model User {
+  id             String       @id @default(uuid())
+  emailEncrypted String       @unique
+  emailKey       String       @unique
+  password       String
+  emailConfirmed Boolean      @default(false)
+  profile        UserProfile?
+}
+
+model UserProfile {
+  user       User      @relation(fields: [id], references: [id])
+  id         String    @unique
+  username   String    @unique @db.VarChar(20)
+  createdAt  DateTime  @default(now())
+  Characters Trainer[]
+}
+
 model Trainer {
-  id       Int       @id @default(autoincrement())
-  name     String    @db.VarChar(30)
-  region   String    @db.VarChar(20)
+  owner    UserProfile @relation(fields: [userId], references: [id])
+  userId   String
+  id       Int         @id @default(autoincrement())
+  name     String      @db.VarChar(30)
+  region   String      @db.VarChar(20)
   age      Int
   pokemons Pokemon[]
 }
@@ -23,4 +42,18 @@ model Pokemon {
   pokedexId Int
   trainerId Int
   trainer   Trainer @relation(fields: [trainerId], references: [id])
+  level     Int
+  xp        BigInt
+  ivHp      Int
+  ivAtk     Int
+  ivDef     Int
+  ivSpAtk   Int
+  ivSpDef   Int
+  ivSpe     Int
+  evHp      Int
+  evAtk     Int
+  evDef     Int
+  evSpAtk   Int
+  evSpDef   Int
+  evSpe     Int
 }

@@ -4,7 +4,8 @@ import PokemonRepository from "../repositories/pokemon.repository";
 import TrainerRepository from "../repositories/trainer.repository";
 import PokeAPI from "../../../lib/pokeapi";
 import { PokeHelpers } from "../helpers";
-import { Pokemon } from ".prisma/client";
+import { Pokemon, Prisma } from ".prisma/client";
+import { randomIv } from "../helpers/pokemon.helpers";
 
 @autoInjectable()
 export default class PokemonService {
@@ -60,6 +61,20 @@ export default class PokemonService {
 
     return this.pokemonRepository.createPokemon({
       pokedexId: pokemon.pokedexId,
+      level: 1,
+      xp: 0,
+      ivHp: randomIv(),
+      ivAtk: randomIv(),
+      ivDef: randomIv(),
+      ivSpAtk: randomIv(),
+      ivSpDef: randomIv(),
+      ivSpe: randomIv(),
+      evHp: 0,
+      evAtk: 0,
+      evDef: 0,
+      evSpAtk: 0,
+      evSpDef: 0,
+      evSpe: 0,
       trainer: {
         connect: { id: pokemon.trainerId },
       },

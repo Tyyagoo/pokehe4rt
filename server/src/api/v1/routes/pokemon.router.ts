@@ -3,6 +3,7 @@ import PokemonService from "../services/pokemon.service";
 
 export function getPokemons(pokemonService: PokemonService) {
   return async function (req: Request, res: Response) {
+    console.log(req.jwt);
     let pokemons = await pokemonService.getPokemons();
     res.send(pokemons);
   };

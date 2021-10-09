@@ -6,6 +6,7 @@ import {
   getTrainers,
   postTrainer,
 } from "../routes/trainer.router";
+import { authToken } from "../middlewares";
 import TrainerService from "../services/trainer.service";
 
 @autoInjectable()
@@ -16,10 +17,10 @@ export default class TrainerController {
   }
 
   routes() {
-    this.router.get("/", getTrainers(this.trainerService));
-    this.router.get("/:id", getTrainer(this.trainerService));
-    this.router.delete("/:id", deleteTrainer(this.trainerService));
-    this.router.post("/", postTrainer(this.trainerService));
+    this.router.get("/", authToken(), getTrainers(this.trainerService));
+    this.router.get("/:id", authToken(), getTrainer(this.trainerService));
+    this.router.delete("/:id", authToken(), deleteTrainer(this.trainerService));
+    this.router.post("/", authToken(), postTrainer(this.trainerService));
     return this.router;
   }
 }

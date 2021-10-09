@@ -1,5 +1,6 @@
 import NodeCache from "node-cache";
 
+const debug = false;
 const pokemons = new NodeCache();
 const abilities = new NodeCache();
 const berries = new NodeCache();
@@ -11,6 +12,7 @@ const Cache = {
 };
 
 setInterval(() => {
+  if (!debug) return;
   let stats = pokemons.getStats();
   console.log(
     `⚡️[server]: pokemon cache -> 
