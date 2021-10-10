@@ -2,12 +2,14 @@ import "reflect-metadata";
 import dotenv from "dotenv";
 import express from "express";
 import API_ROUTING from "./api";
+import cors from "cors";
 
 dotenv.config();
 
 const PORT = 8000;
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {

@@ -1,0 +1,5 @@
+<ul>
+  <li *ngFor="let link of links; let i = index" [ngClass]="{active: activeItem === i}">
+    <a (click)="onSelect(link, i)">{{link}}</a>
+  </li>
+</ul>

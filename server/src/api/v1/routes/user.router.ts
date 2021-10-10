@@ -4,7 +4,6 @@ import UserService from "../services/user.service";
 export function login(userService: UserService) {
   return async function (req: Request, res: Response) {
     let data = req.body;
-
     try {
       let token = await userService.login(data);
       res.status(200).send({ token });

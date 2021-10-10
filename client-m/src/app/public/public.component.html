@@ -1,0 +1,17 @@
+<div *ngIf="isAuth">
+  <span style="font-weight: bold;">You're logged in!</span>
+</div>
+
+<div *ngIf="!isAuth">
+  <div style="display:block">
+    <button (click)="register()">Register</button>
+    <span *ngIf="registerMessage != undefined">Register: {{registerMessage}}</span>
+  </div>
+  <div style="display:block">
+    <button (click)="login()">Login</button>
+    <span *ngIf="loginMessage != undefined">Login: {{loginMessage}}</span>
+  </div>
+</div>
+
+
+<router-outlet></router-outlet>

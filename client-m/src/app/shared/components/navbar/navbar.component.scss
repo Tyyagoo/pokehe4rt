@@ -1,0 +1,13 @@
+ul {
+  padding: 0;
+  margin: 0;
+
+  li {
+    list-style: none;
+    display: inline-block;
+    &.active {
+      color: red;
+      font-weight: bold;
+    }
+  }
+}

@@ -13,14 +13,17 @@ export default class UserService {
 
   async login(data: any) {
     let userDetails = UserDetails.fromJson(data);
-    let user = await this.userRepository.findUserByUsername(
-      userDetails.username
-    );
-    let result = await bcrypt.compare(userDetails.password, user.password);
-    if (result) {
-      const token = generateAccessToken(userDetails.username);
-      return token;
-    }
+
+    try {
+      let user = await this.userRepository.findUserByUsername(
+        userDetails.username
+      );
+      let result = await bcrypt.compare(userDetails.password, user.password);
+      if (result) {
+        const token = generateAccessToken(userDetails.username);
+        return token;
+      }
+    } catch {}
     throw new Error("Invalid credentials.");
   }
 
