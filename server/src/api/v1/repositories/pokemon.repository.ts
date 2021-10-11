@@ -2,7 +2,7 @@ import prisma from "./index";
 import { Prisma } from ".prisma/client";
 
 export default class PokemonRepository {
-  pokemons = prisma.pokemon;
+  private pokemons = prisma.pokemon;
 
   async findAllPokemons() {
     return this.pokemons.findMany();

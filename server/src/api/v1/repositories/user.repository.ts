@@ -2,22 +2,36 @@ import prisma from "./index";
 import { Prisma } from ".prisma/client";
 
 export default class UserRepository {
-  users = prisma.user;
-  usersProfile = prisma.userProfile;
+  private users = prisma.user;
 
+  // this only can be used inside this application, never send this obj as a response.
   async findUserByUsername(username: string) {
-    let profile = await this.findUserProfileByUsername(username);
-    if (profile == null) throw new Error("Invalid username.");
-    let id = profile.id;
-    let user = (await this.users.findUnique({ where: { id } }))!;
-    return {
-      ...user,
-      profile,
-    };
+    return await this.users.findUnique({ where: { username } });
   }
 
   async findUserProfileByUsername(username: string) {
-    return await this.usersProfile.findUnique({ where: { username } });
+    return await this.users.findUnique({
+      where: { username },
+      select: {
+        id: true,
+        username: true,
+        password: false,
+        createdAt: true,
+        Characters: false,
+      },
+    });
+  }
+
+  async findAllUsers() {
+    return await this.users.findMany({
+      select: {
+        id: true,
+        username: true,
+        password: false,
+        createdAt: true,
+        Characters: false,
+      },
+    });
   }
 
   async createUser(user: Prisma.UserCreateInput) {

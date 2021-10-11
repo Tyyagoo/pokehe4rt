@@ -13,6 +13,9 @@ export class PrivateComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('On init');
-    this.pokeService.fetchPokemons().subscribe((res) => console.log(res));
+    this.pokeService.fetchPokemons().subscribe((res) => {
+      console.log(res);
+      this.pokes = res.data;
+    });
   }
 }

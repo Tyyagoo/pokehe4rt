@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { API_METHOD } from '../models/http';
+import { API_METHOD, ServerSuccessResponse } from '../models/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
@@ -11,32 +11,32 @@ import { throwError } from 'rxjs';
 export class HttpService {
   constructor(private http: HttpClient) {}
 
-  request<T>(url: string, method: API_METHOD, data?: any) {
+  get<T>(url: string) {
     let fullUrl = `${environment.API_URL}/${url}`;
-    let response;
-    switch (method) {
-      case 'GET':
-        response = this.http
-          .get<T>(fullUrl)
-          .pipe(catchError((err) => this.handleError(err)));
-        break;
-      case 'POST':
-        response = this.http
-          .post<T>(fullUrl, data)
-          .pipe(catchError((err) => this.handleError(err)));
-        break;
-      case 'PUT':
-        response = this.http
-          .put<T>(fullUrl, data)
-          .pipe(catchError((err) => this.handleError(err)));
-        break;
-      case 'DELETE':
-        response = this.http
-          .get(fullUrl)
-          .pipe(catchError((err) => this.handleError(err)));
-        break;
-    }
-    return response;
+    return this.http
+      .get<ServerSuccessResponse<T>>(fullUrl)
+      .pipe(catchError((err) => this.handleError(err)));
+  }
+
+  post<T>(url: string, data?: any) {
+    let fullUrl = `${environment.API_URL}/${url}`;
+    return this.http
+      .post<ServerSuccessResponse<T>>(fullUrl, data)
+      .pipe(catchError((err) => this.handleError(err)));
+  }
+
+  put<T>(url: string, data?: any) {
+    let fullUrl = `${environment.API_URL}/${url}`;
+    return this.http
+      .put<ServerSuccessResponse<T>>(fullUrl, data)
+      .pipe(catchError((err) => this.handleError(err)));
+  }
+
+  delete(url: string) {
+    let fullUrl = `${environment.API_URL}/${url}`;
+    return this.http
+      .delete<never>(fullUrl)
+      .pipe(catchError((err) => this.handleError(err)));
   }
 
   handleError(error: HttpErrorResponse) {

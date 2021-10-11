@@ -1,6 +1,12 @@
 import express, { Router } from "express";
 import { autoInjectable } from "tsyringe";
-import { login, register } from "../routes/user.router";
+import { authToken } from "../middlewares";
+import {
+  getAllUsers,
+  getUserByUsername,
+  login,
+  register,
+} from "../routes/user.router";
 
 import UserService from "../services/user.service";
 
@@ -12,6 +18,12 @@ export default class UserController {
   }
 
   routes() {
+    this.router.get("/", authToken(), getAllUsers(this.userService));
+    this.router.get(
+      ":username",
+      authToken(),
+      getUserByUsername(this.userService)
+    );
     this.router.post("/login", login(this.userService));
     this.router.post("/register", register(this.userService));
     return this.router;

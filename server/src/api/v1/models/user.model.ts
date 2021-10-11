@@ -1,9 +1,8 @@
 export class UserDetails {
-  email?: string;
   username: string;
   password: string;
 
-  constructor(username: string, password: string, email?: string) {
+  constructor(username: string, password: string) {
     if (username == undefined || username.length < 3) {
       throw new Error("You must enter a valid username.");
     }
@@ -13,14 +12,9 @@ export class UserDetails {
 
     this.username = username;
     this.password = password;
-    this.email = email;
   }
 
-  canRegister() {
-    return this.email != null;
-  }
-
-  static fromJson(obj: { username: string; password: string; email?: string }) {
-    return new UserDetails(obj.username, obj.password, obj.email);
+  static fromJson(obj: { username: string; password: string }) {
+    return new UserDetails(obj.username, obj.password);
   }
 }

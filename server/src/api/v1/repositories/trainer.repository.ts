@@ -2,7 +2,7 @@ import prisma from "./index";
 import { Prisma } from ".prisma/client";
 
 export default class TrainerRepository {
-  trainers = prisma.trainer;
+  private trainers = prisma.trainer;
 
   async findAllTrainers() {
     return this.trainers.findMany();

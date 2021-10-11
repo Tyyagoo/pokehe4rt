@@ -3,8 +3,8 @@ import TrainerService from "../services/trainer.service";
 
 export function getTrainers(trainerService: TrainerService) {
   return async function (req: Request, res: Response) {
-    let trainers = await trainerService.getTrainers();
-    res.send(trainers);
+    let data = await trainerService.getTrainers();
+    res.status(200).send({ data });
   };
 }
 
@@ -13,7 +13,7 @@ export function getTrainer(trainerService: TrainerService) {
     let id = parseInt(req.params.id);
     let maybeTrainer = await trainerService.getTrainer(id);
     if (maybeTrainer) {
-      res.send(maybeTrainer);
+      res.status(200).send({ data: maybeTrainer });
     } else {
       res.status(404).send({ message: "This trainer doesn't exists." });
     }
@@ -24,7 +24,7 @@ export function postTrainer(trainerService: TrainerService) {
   return async function (req: Request, res: Response) {
     try {
       let trainer = await trainerService.createTrainer(req.body);
-      res.send({ data: trainer });
+      res.status(200).send({ data: trainer });
     } catch {
       res.status(400).send();
     }

@@ -9,6 +9,18 @@ export class PokemonsService {
   constructor(private http: HttpService) {}
 
   fetchPokemons() {
-    return this.http.request<Pokemon[]>('pokemons', 'GET');
+    return this.http.get<Pokemon[]>('pokemons');
+  }
+
+  fetchPokemonById(id: number) {
+    return this.http.get<Pokemon>(`pokemons/${id}`);
+  }
+
+  fetchPokemonsByTrainer(id: number) {
+    return this.http.get<Pokemon[]>(`pokemons/trainer/${id}`);
+  }
+
+  savePokemon(data: Omit<Pokemon, 'id'>) {
+    return this.http.post<Pokemon>('pokemons', data);
   }
 }

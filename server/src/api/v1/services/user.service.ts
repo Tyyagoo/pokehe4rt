@@ -2,7 +2,6 @@ import { Prisma } from ".prisma/client";
 import { autoInjectable } from "tsyringe";
 import UserRepository from "../repositories/user.repository";
 import { UserDetails } from "../models/user.model";
-import crypto from "crypto";
 import bcrypt from "bcrypt";
 import { generateAccessToken } from "../helpers/auth.helper";
 
@@ -11,19 +10,26 @@ export default class UserService {
   saltRounds = 10;
   constructor(private userRepository: UserRepository) {}
 
+  async getUser(username: string) {
+    return this.userRepository.findUserProfileByUsername(username);
+  }
+
+  async getAllUsers() {
+    return this.userRepository.findAllUsers();
+  }
+
   async login(data: any) {
     let userDetails = UserDetails.fromJson(data);
-
-    try {
-      let user = await this.userRepository.findUserByUsername(
-        userDetails.username
-      );
+    let user = await this.userRepository.findUserByUsername(
+      userDetails.username
+    );
+    if (user != null) {
       let result = await bcrypt.compare(userDetails.password, user.password);
       if (result) {
         const token = generateAccessToken(userDetails.username);
         return token;
       }
-    } catch {}
+    }
     throw new Error("Invalid credentials.");
   }
 
@@ -31,29 +37,11 @@ export default class UserService {
 
   async register(data: any) {
     let userDetails = UserDetails.fromJson(data);
-    if (!userDetails.canRegister()) throw new Error("Email cannot be empty");
-
-    let key = crypto.randomBytes(16).toString("hex");
-    let sha256Hasher = crypto.createHmac("sha256", key);
-
-    let ehash = sha256Hasher.update(userDetails.email!).digest("hex");
     let phash = await bcrypt.hash(userDetails.password, this.saltRounds);
-
-    let user: Prisma.UserCreateInput = {
-      emailEncrypted: ehash,
-      emailKey: key,
+    let user = await this.userRepository.createUser({
+      username: userDetails.username,
       password: phash,
-      profile: {
-        create: {
-          username: userDetails.username,
-        },
-      },
-    };
-    try {
-      let u = await this.userRepository.createUser(user);
-      return u;
-    } catch {
-      throw new Error("There is already an account with this username");
-    }
+    });
+    return user;
   }
 }
