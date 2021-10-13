@@ -14,4 +14,8 @@ export class TokenService {
   setToken(token: string) {
     this.cookies.set('token', token);
   }
+
+  clear() {
+    this.cookies.delete('token');
+  }
 }

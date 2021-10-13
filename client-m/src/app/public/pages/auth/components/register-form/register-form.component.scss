@@ -1,0 +1,45 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 10px;
+}
+
+.form-container > * {
+  margin-bottom: 15px;
+}
+
+.input-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.input-container {
+  width: 20rem;
+  display: flex;
+  justify-content: center;
+
+  @media (max-width: 767px) {
+    width: 90%;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.btn-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-container {
+  width: 60%;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-container > * {
+  margin: 0px 10px;
+}

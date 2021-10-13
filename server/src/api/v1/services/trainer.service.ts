@@ -14,7 +14,12 @@ export default class TrainerService {
     return this.trainerRepository.findTrainerById(id);
   }
 
-  async createTrainer(trainer: Prisma.TrainerCreateInput) {
+  async createTrainer(trainer: {
+    name: string;
+    region: string;
+    age: number;
+    username: string;
+  }) {
     return this.trainerRepository.createTrainer(trainer);
   }
 

@@ -20,7 +20,7 @@ export default class UserController {
   routes() {
     this.router.get("/", authToken(), getAllUsers(this.userService));
     this.router.get(
-      ":username",
+      "/:username",
       authToken(),
       getUserByUsername(this.userService)
     );

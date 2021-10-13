@@ -23,7 +23,11 @@ export function getTrainer(trainerService: TrainerService) {
 export function postTrainer(trainerService: TrainerService) {
   return async function (req: Request, res: Response) {
     try {
-      let trainer = await trainerService.createTrainer(req.body);
+      let trainerPayload = {
+        ...req.body,
+        username: req!.jwt!.username as string,
+      };
+      let trainer = await trainerService.createTrainer(trainerPayload);
       res.status(200).send({ data: trainer });
     } catch {
       res.status(400).send();

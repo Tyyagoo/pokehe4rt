@@ -4,10 +4,14 @@ export interface UserLoginPayload {
 }
 
 export interface UserRegisterPayload extends UserLoginPayload {
-  email: string;
+  // email: string;
 }
 
-export interface UserActionResponse {
-  token?: string;
+export interface UserLoginResponse {
+  data: {
+    token: string;
+  };
+}
+export interface UserRegisterResponse {
   message?: string;
 }

@@ -1,0 +1,81 @@
+<form class="form-container">
+
+  <div class="input-wrapper">
+    <div class="input-container">
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Username</mat-label>
+        <input type="text" [formControl]="usernameFormControl" matInput placeholder="Noobmaster69">
+        <mat-error *ngIf="usernameFormControl.hasError('minlength') && !usernameFormControl.hasError('required')">
+          Please enter a <strong>valid</strong> username
+        </mat-error>
+        <mat-error *ngIf="usernameFormControl.hasError('required')">
+          Username is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="input-wrapper">
+    <div class="input-container">
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Password</mat-label>
+        <input [type]="hidePassword ? 'password' : 'text'" [formControl]="passwordFormControl" matInput
+          placeholder="************">
+        <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+          [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="passwordFormControl.hasError('strong') && !passwordFormControl.hasError('required')">
+          Your password must be <strong>strong</strong>
+        </mat-error>
+        <mat-error *ngIf="passwordFormControl.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="input-wrapper">
+    <div class="input-container">
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Confirm Password</mat-label>
+        <input [type]="hideRePassword ? 'password' : 'text'" [formControl]="rePasswordFormControl" matInput
+          placeholder="************">
+        <button type="button" mat-icon-button matSuffix (click)="hideRePassword = !hideRePassword"
+          [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideRePassword">
+          <mat-icon>{{hideRePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="rePasswordFormControl.hasError('equal') && !passwordFormControl.hasError('required')">
+          Password and confirmation <strong>must be the same</strong>
+        </mat-error>
+        <mat-error *ngIf="rePasswordFormControl.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="btn-wrapper">
+    <div class="btn-container">
+      <!--
+        <button type="button" mat-raised-button (click)="reset()" [disabled]="!registerForm.dirty">Clear</button>
+      -->
+      <button type="button" mat-raised-button color="primary" [disabled]="!registerForm.valid"
+        (click)="onSubmit()">Register</button>
+    </div>
+  </div>
+
+  <div class="btn-wrapper">
+    <div class="btn-container">
+      <div *ngIf="errorMessage !== undefined && registerForm.dirty">
+        <span style="color: rgb(216, 17, 17);">{{errorMessage}}</span>
+      </div>
+
+      <div *ngIf="successMessage !== undefined && registerForm.dirty">
+        <span style="color: #0ff148">{{successMessage}}</span>
+      </div>
+    </div>
+  </div>
+
+
+</form>

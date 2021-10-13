@@ -17,7 +17,7 @@ export default class UserRepository {
         username: true,
         password: false,
         createdAt: true,
-        Characters: false,
+        Characters: true,
       },
     });
   }
@@ -29,7 +29,7 @@ export default class UserRepository {
         username: true,
         password: false,
         createdAt: true,
-        Characters: false,
+        Characters: true,
       },
     });
   }

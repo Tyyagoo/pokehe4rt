@@ -14,6 +14,7 @@ const authToken: wrapper = () => {
       console.log(err);
       if (err) return res.status(403).send({ message: "Access denied." });
       req.jwt = payload;
+      console.log(payload);
       next();
     });
   };

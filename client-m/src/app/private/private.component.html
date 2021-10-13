@@ -1,2 +1,11 @@
 <h1>Hello private!</h1>
+
+<main>
+  <div *ngIf="trainers.length < 1">
+    You doesn't have any trainer, please go to
+    <a style="text-decoration: underline;" (click)="goToProfile()">profile</a>
+    to create one!
+  </div>
+  <div *ngIf="trainers.length > 0"></div>
+</main>
 <router-outlet></router-outlet>

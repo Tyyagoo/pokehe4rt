@@ -1,0 +1,8 @@
+<main>
+  <div *ngIf="userData === undefined">404</div>
+  <div *ngIf="userData !== undefined">
+    <div *ngIf="getViewerMode() === 'NONE'">Something bad happened...</div>
+    <app-owner *ngIf="getViewerMode() === 'OWNER'"></app-owner>
+    <app-viewer *ngIf="getViewerMode() === 'VIEWER'"></app-viewer>
+  </div>
+</main>

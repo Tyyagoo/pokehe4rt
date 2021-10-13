@@ -1,0 +1,17 @@
+<main>
+  <div class="container-trainers">
+    <!--Trainers-->
+    <div *ngFor="let trainer of getFirstTrainers(5)">
+      <div *ngIf="trainer !== null">
+        T
+      </div>
+      <div *ngIf="trainer === null">
+        <button mat-mini-fab color="primary" aria-label="Add trainer" (click)="openCreateTrainerModal()">
+          <mat-icon>
+            add_circle
+          </mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</main>

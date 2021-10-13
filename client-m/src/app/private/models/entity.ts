@@ -2,6 +2,7 @@ export type User = {
   id: string;
   username: string;
   createdAt: Date;
+  Characters: number[];
 };
 
 export type Trainer = {

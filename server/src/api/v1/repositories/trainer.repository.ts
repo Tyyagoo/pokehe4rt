@@ -1,5 +1,6 @@
 import prisma from "./index";
 import { Prisma } from ".prisma/client";
+import { receiveMessageOnPort } from "worker_threads";
 
 export default class TrainerRepository {
   private trainers = prisma.trainer;
@@ -12,8 +13,24 @@ export default class TrainerRepository {
     return this.trainers.findUnique({ where: { id } });
   }
 
-  async createTrainer(trainer: Prisma.TrainerCreateInput) {
-    return this.trainers.create({ data: trainer });
+  async createTrainer(trainer: {
+    name: string;
+    region: string;
+    age: number;
+    username: string;
+  }) {
+    let username = trainer.username;
+    console.log(trainer);
+    return this.trainers.create({
+      data: {
+        name: trainer.name,
+        region: trainer.region,
+        age: trainer.age,
+        owner: {
+          connect: { username },
+        },
+      },
+    });
   }
 
   async deleteTrainerById(id: number) {

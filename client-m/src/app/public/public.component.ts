@@ -8,8 +8,6 @@ import { UserService } from '../core/services/user/user.service';
   styleUrls: ['./public.component.scss'],
 })
 export class PublicComponent implements OnInit {
-  registerMessage?: string;
-  loginMessage?: string;
   isAuth: boolean = false;
 
   constructor(private userService: UserService, private router: Router) {}
@@ -17,31 +15,7 @@ export class PublicComponent implements OnInit {
   ngOnInit(): void {
     this.isAuth = this.userService.isAuthenticated();
     if (this.isAuth) {
-      this.router.navigateByUrl('/game');
+      this.router.navigateByUrl('/play');
     }
-  }
-
-  register() {
-    let setRegisterMessage = (message?: string) =>
-      (this.registerMessage = message);
-    this.userService.register(
-      {
-        email: 'cjscnka@gmail.com',
-        username: 'ITSME',
-        password: 'helloworldworld',
-      },
-      setRegisterMessage,
-      setRegisterMessage
-    );
-  }
-
-  login() {
-    let setLoginMessage = (message?: string) => (this.loginMessage = message);
-
-    this.userService.login(
-      { username: 'ITSME', password: 'helloworldworld' },
-      () => (this.isAuth = true),
-      setLoginMessage
-    );
   }
 }

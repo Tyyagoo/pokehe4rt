@@ -1,0 +1,66 @@
+<form class="form-container">
+
+  <div class="input-wrapper">
+    <div class="input-container">
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Username</mat-label>
+        <input type="text" [formControl]="usernameFormControl" matInput placeholder="Noobmaster69">
+        <mat-error *ngIf="usernameFormControl.hasError('minlength') && !usernameFormControl.hasError('required')">
+          Please enter a valid username.
+        </mat-error>
+        <mat-error *ngIf="usernameFormControl.hasError('required')">
+          Username is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="input-wrapper">
+    <div class="input-container">
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Password</mat-label>
+        <input [type]="hidePassword ? 'password' : 'text'" [formControl]="passwordFormControl" matInput
+          placeholder="************">
+        <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+          [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="passwordFormControl.hasError('minlength') && !passwordFormControl.hasError('required')">
+          Your password must have at least 12 digits.
+        </mat-error>
+        <mat-error *ngIf="passwordFormControl.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="btn-wrapper">
+    <div class="btn-container">
+      <!--
+        <button type="button" mat-raised-button (click)="reset()" [disabled]="!loginForm.dirty">Clear</button>
+      -->
+      <button type="button" mat-raised-button color="primary" [disabled]="!loginForm.valid"
+        (click)="onSubmit()">Login</button>
+    </div>
+  </div>
+
+  <div class="btn-wrapper">
+    <div class="btn-container">
+      <div *ngIf="errorMessage !== undefined && loginForm.dirty">
+        <span style="color: rgb(216, 17, 17);">{{errorMessage}}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-wrapper">
+    <div class="btn-container">
+      <div *ngIf="isAuthenticated && loginForm.dirty">
+        <span style="color: rgb(50, 216, 17);">You've successfully logged in.<br>
+          <a routerLink="/">Click here if your browser doesn't support automatic redirecting.</a>
+        </span>
+      </div>
+    </div>
+  </div>
+
+</form>
